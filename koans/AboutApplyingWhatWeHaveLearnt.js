@@ -109,8 +109,18 @@ describe("About Applying What We Have Learnt", function() {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
-    
-   expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+
+    function compute(smtg) {
+      var result = _(products).chain()
+                                  .map(function(x) { return x.ingredients;} )
+                                  .flatten()
+                                  .map(function(x) { if (x===smtg) return 1; else return 0;} )
+                                  .reduce(function (sum, x) { return sum + parseInt(x) })
+                                  .value();
+      ingredientCount[smtg] = result;
+    }
+    compute("mushrooms");
+   expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
